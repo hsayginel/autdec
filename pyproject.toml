@@ -30,4 +30,8 @@ include = ["autdec/py.typed"]
 
 [tool.poetry.dependencies]
 python = '^3.11'
-numpy = '^1.26.2'
+numpy = '^2.2.3'
+igraph = '^0.11.8'
+stim = '^1.14.0'
+sympy = '^1.13.3'
+scipy = '^1.15.2'
