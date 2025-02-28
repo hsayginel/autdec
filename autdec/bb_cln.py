@@ -47,11 +47,11 @@ def autdecode_bb_cln(bb_code_name,error_rate, num_shots, DEM_col_perms, DEM_row_
 
     print(code.name)
     
-    if base_decoder=='BP' or 'bp':
+    if base_decoder in ['BP','bp','Bp']:
         decoder = BpDecoder
-    elif base_decoder=='BP+OSD' or 'BPOSD' or 'bposd' or 'osd':
+    elif base_decoder in ['BP+OSD','BPOSD','bposd','osd','BpOsd']:
         decoder = BpOsdDecoder
-    elif base_decoder=='BP+LSD' or 'BPLSD' or 'bplsd' or 'lsd':
+    elif base_decoder in ['BP+LSD','BPLSD','bplsd','lsd','BpLsd']:
         decoder = BpLsdDecoder
     else:
         raise ValueError("Available base decoders are: BP, BP+OSD and BP+LSD.")
@@ -115,7 +115,7 @@ def autdecode_bb_cln(bb_code_name,error_rate, num_shots, DEM_col_perms, DEM_row_
                 corr_base = corr_AutDEC.copy()
             elif ensemble[i].converge: # check if BP converged. 
                 correction_ensemble.append(corr_AutDEC)
-                if base_decoder == 'BP' or 'bp': # if a BP path converged, exit the loop.
+                if base_decoder == ['BP','bp']: # if a BP path converged, exit the loop.
                     break
 
         correction_ensemble = sorted(correction_ensemble,key=likelihood,reverse=True)
@@ -132,7 +132,7 @@ def autdecode_bb_cln(bb_code_name,error_rate, num_shots, DEM_col_perms, DEM_row_
         
         if (trial+1)%checkpoint == 0:
             print(f'{trial+1} \t {base_dec_errs} \t {AutDEC_errs}')
-    return f'{trial+1} \t {base_dec_errs} \t {AutDEC_errs}'
+    return num_shots, base_dec_errs, AutDEC_errs
 
 
 def bb_dem_matrix(bb_code_name,basis='Z'):
