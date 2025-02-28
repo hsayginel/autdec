@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "AutDEC"
+authors:
+  - family-names: "Sayginel"
+    given-names: "Hasan"
+    orcid: "0009-0006-8850-4044"
+    email: "hasan.sayginel.17@ucl.ac.uk"
+    affiliation: "University College London"
+
+  - family-names: "Koutsioumpas"
+    given-names: "Stergios"
+    email: "s.koutsioumpas@ucl.ac.uk"
+    affiliation: "University College London"
+
+version: "1.0.0"
+date-released: "2025-03-04"
+repository-code: "https://github.com/hsayginel/autdec"
+license: "MIT"
+description: "Automorphism Ensemble Decocder for Quantum Stabilizer Codes"
+keywords:
+  - quantum computing
+  - error correction
+  - qLDPC codes
+// doi: " "  
+
+citation-style: "apa"
