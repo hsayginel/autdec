@@ -183,32 +183,3 @@ def bb_dem_matrix(bb_code_name,basis='Z'):
     chk, obs, priors, col_dict = dem_to_check_matrices(dem, return_col_dict=True)
 
     return chk
-
-
-# if __name__ == "__main__":
-#     parser = argparse.ArgumentParser(description="BP - AutBP data for [[72,12,6]] under circuit level noise.")
-    
-#     # Required arguments
-#     parser.add_argument('-e','--error_rate', required=True, help='Error rate')
-#     parser.add_argument('-o','--shot_order', required=True, help='Shots')
-#     parser.add_argument('-a','--aut_batchsize', required=True, help='Aut ensemble size')
-#     parser.add_argument('-i','--maxiter', required=False, help='Max iterations of BP')
-#     parser.add_argument('--bp_method', required=False, help='BP method')
-#     parser.add_argument('-ms','--ms_factor', required=False, help='ms scaling factor')
-#     parser.add_argument('-s1','--stim_seed',required=False, help='Stim seed')
-#     parser.add_argument('-s2','--aut_seed',required=False, help='Aut seed')
-#     parser.add_argument('--basis',required=False, help='X or Z')
-
-    
-#     args = parser.parse_args()
-#     output_filepath = f'./autbp_e{args.error_rate}_o{args.shot_order}_a{args.aut_batchsize}_i{args.maxiter}_ms{args.ms_factor}_s1{args.stim_seed}_s2{args.aut_seed}_{args.basis}.txt'
-#     decode_bb72cln_autbp(output_filepath,
-#                   float(args.error_rate), 
-#                   int(args.shot_order), 
-#                   int(args.aut_batchsize),
-#                   int(args.maxiter),
-#                   str(args.bp_method),
-#                   float(args.ms_factor),
-#                   int(args.stim_seed),
-#                   int(args.aut_seed),
-#                   str(args.basis))
