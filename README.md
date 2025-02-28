@@ -1,2 +1,1 @@
-# autdec
-Automorphism Ensemble Decoder for Quantum Stabilizer Codes
+# AutDEC: Automorphism Ensemble Decoder for Quantum Stabilizer Codes
