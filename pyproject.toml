@@ -1,0 +1,33 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "autdec"
+version = "0.1.0"
+description = "Automorphism Ensemble Decoder for Quantum Stabilizer Codes"
+license = "MIT"
+authors = ["Hasan Sayginel <hasan.sayginel.17@ucl.ac.uk>", "Stergios Koutsioumpas <s.koutsioumpas@ucl.ac.uk>"]
+readme = "README.md" 
+repository = "https://github.com/hsayginel/autdec"
+keywords = [
+  "quantum computing",
+  "quantum error correction",
+  "quantum low-density parity check codes",
+  "decoding",
+  "LDPC",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent", 
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+include = ["autdec/py.typed"]
+
+[tool.poetry.dependencies]
+python = '^3.11'
+numpy = '^1.26.2'
