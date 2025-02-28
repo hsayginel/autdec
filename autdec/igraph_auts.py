@@ -76,7 +76,8 @@ def list_perm_group_elements(group,n):
     """
     elts=[]
     for element in group.generate_dimino():
-        elts.append(permutation_matrix(element,n))
+        if element!=Permutation(range(n)):
+            elts.append(permutation_matrix(element,n))
     return elts
 
 def list_perm_group_elements_schreier(group,n):
@@ -92,7 +93,8 @@ def list_perm_group_elements_schreier(group,n):
     """
     elts=[]
     for element in group.generate_schreier_sims():
-        elts.append(permutation_matrix(element,n))
+        if element!=Permutation(range(n)):
+            elts.append(permutation_matrix(element,n))
     return elts
 
 def graph_auts_from_bliss(pcm,print_order=True):
@@ -113,17 +115,18 @@ def vertex_graph_auts_from_bliss(pcm,print_order=True):
     col_perms = []
     if print_order: 
         for element in autgroup.generate_schreier_sims():
-            PX=permutation_matrix(element,n+m)
-            col_perm = PX[:n,:n]
-            row_perm = PX[n:,n:]
-            row_perms.append(row_perm)
-            col_perms.append(col_perm)
+            if element!=Permutation(range(n+m)):
+                PX=permutation_matrix(element,n+m)
+                col_perm = PX[:n,:n]
+                row_perm = PX[n:,n:]
+                row_perms.append(row_perm)
+                col_perms.append(col_perm)
     else:
         for element in autgroup.generate_dimino():
-            PX=permutation_matrix(element,n+m)
-            col_perm = PX[:n,:n]
-            row_perm = PX[n:,n:]
-            row_perms.append(row_perm)
-            col_perms.append(col_perm)
+            if element!=Permutation(range(n+m)):
+                PX=permutation_matrix(element,n+m)
+                col_perm = PX[:n,:n]
+                row_perm = PX[n:,n:]
+                row_perms.append(row_perm)
+                col_perms.append(col_perm)
     return col_perms, row_perms
-
