@@ -64,44 +64,38 @@ def AutDEC_code_capacity(HX,HZ,LX,LZ,error_rate,shots,base_decoder,decoder_param
         eX = error[n:]
         sZ = (HZ@eX)%2
 
-        # X_converge = False
-        # Z_converge = False
         for i in range(len(ensemble_X)): 
-            # if X_converge and Z_converge:
-            #     break
-            # if not X_converge:
             corr_AutDEC_X = ensemble_X[i].decode(Ua_X_list[i]@sX%2)
             if i==0:
-                correction_ensemble_X.append(corr_AutDEC_X) # base decoder correction added as first element
                 cX_base = corr_AutDEC_X.copy()
-            elif ensemble_X[i].converge: # check if BP converged. 
+            if np.allclose(HX@corr_AutDEC_X%2,sX): # check if BP converged. 
                 correction_ensemble_X.append(corr_AutDEC_X)
-                    # if base_decoder == ['BP','bp','Bp']: # if a BP path converged, exit the loop.
-                    #     X_converge = True
-        
-            # if not Z_converge:
+
             corr_AutDEC_Z = ensemble_Z[i].decode(Ua_Z_list[i]@sZ%2)
             if i==0:
-                correction_ensemble_Z.append(corr_AutDEC_Z) # base decoder correction added as first element
                 cZ_base = corr_AutDEC_Z.copy()
-            elif ensemble_Z[i].converge: # check if BP converged. 
+            if np.allclose(HZ@corr_AutDEC_Z%2,sZ): # check if BP converged. 
                 correction_ensemble_Z.append(corr_AutDEC_Z)
-                    # if base_decoder == ['BP','bp','Bp']: # if a BP path converged, exit the loop.
-                    #     Z_converge = True
+                    
 
+        if not correction_ensemble_X:
+            cX_AutDEC=cX_base.copy()
+        else:
+            weights_cX = np.array(correction_ensemble_X).sum(axis=1)
+            cX_indices = np.arange(len(correction_ensemble_X),dtype=int)
+            weights_cX_sorted = sorted(zip(weights_cX, cX_indices))
+            cX_AutDEC = correction_ensemble_X[weights_cX_sorted[0][1]]
+        if not correction_ensemble_Z:
+            cZ_AutDEC=cZ_base.copy()
+        else:
+            weights_cZ = np.array(correction_ensemble_Z).sum(axis=1)
+            cZ_indices = np.arange(len(correction_ensemble_Z),dtype=int)
+            weights_cZ_sorted = sorted(zip(weights_cZ, cZ_indices))
+            cZ_AutDEC = correction_ensemble_Z[weights_cZ_sorted[0][1]]
 
-        weights_cZ = np.array(correction_ensemble_Z).sum(axis=1)
-        cZ_indices = np.arange(len(correction_ensemble_Z),dtype=int)
-        weights_cZ_sorted = sorted(zip(weights_cZ, cZ_indices))
-        cZ_AutDEC = correction_ensemble_Z[weights_cZ_sorted[0][1]]
-
-        weights_cX = np.array(correction_ensemble_X).sum(axis=1)
-        cX_indices = np.arange(len(correction_ensemble_X),dtype=int)
-        weights_cX_sorted = sorted(zip(weights_cX, cX_indices))
-        cX_AutDEC = correction_ensemble_X[weights_cX_sorted[0][1]]
-       
-        full_corr_base = np.hstack((cZ_base,cX_base))
-        full_corr_AutDEC = np.hstack((cZ_AutDEC,cX_AutDEC))
+            
+        full_corr_base = np.hstack((cX_base,cZ_base))
+        full_corr_AutDEC = np.hstack((cX_AutDEC,cZ_AutDEC))
         
         ### Check full correction ###
         if np.allclose(full_corr_base,error):
