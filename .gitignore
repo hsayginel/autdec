@@ -4,3 +4,5 @@ poetry*
 *__pycache__
 .ipynb_checkpoints
 *.DS_store
+bivariate_bicycle_codes/bb_data
+bivariate_bicycle_codes/plots*
