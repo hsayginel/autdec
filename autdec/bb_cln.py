@@ -12,7 +12,7 @@ from ldpc.bplsd_decoder import BpLsdDecoder
 # AUTDECODE 
 from autdec.dem_utils import *
 
-def autdecode_bb_cln(bb_code_name,error_rate, num_shots, DEM_col_perms, DEM_row_perms, base_decoder,decoder_hyperparams,basis='Z'):
+def autdecode_bb_cln(bb_code_name,error_rate, num_shots, DEM_col_perms, DEM_row_perms, base_decoder,decoder_hyperparams,basis='Z',checkpoint=100):
     """
     Performs circuit-level noise simulations to compare the logical error rates of a base decoder and an automorphism ensemble decoder for a given bivariate bicycle code.
 
@@ -25,7 +25,7 @@ def autdecode_bb_cln(bb_code_name,error_rate, num_shots, DEM_col_perms, DEM_row_
         base_decoder (str): The base decoder function, using the base decoders of the LDPC package py Joschka Roffe (currently can be BP, BPOSD or BPLSD).
         decoder_hyperparams (dict): A dictionary containing hyperparameters for the base decoder.
         basis (str, optional): The logical basis to measure ('Z' or 'X'). Defaults to 'Z'.
-
+        checkpoint (int,optional): Print results every this many shots. Defaults to 100.
     Returns:
         num_shots, base_dec_errs, AutDEC_errs[int, int, int]: A tuple containing the number of shots, logical error rates for the base decoder and the automorphism ensemble decoder, respectively.
     """
@@ -120,24 +120,21 @@ def autdecode_bb_cln(bb_code_name,error_rate, num_shots, DEM_col_perms, DEM_row_
     AutDEC_errs = 0
 
     print('Starting decoding.')
-    print(f"{'Trial no':<12} {'BaseDec Errors':>15} {'AutDEC Errors':>15}") 
-    checkpoint = 500
-    
+    print(f"{'Trial no':<12} {'BaseDec Errors':>15} {'AutDEC Errors':>15}")     
     for trial in range(num_shots):
         correction_ensemble = []
         for i in range(len(ensemble)):
-            corr_AutDEC = ensemble[i].decode(DEM_row_perms[i]@det_data[trial]%2)
+            corr_aut = ensemble[i].decode(DEM_row_perms[i]@det_data[trial]%2)
             if i==0:
-                correction_ensemble.append(corr_AutDEC) # base decoder correction added as first element
-                corr_base = corr_AutDEC.copy()
-            # check if BP converged, faster but less accurate than if np.allclose(chk@corr_AutDEC%2,det_data[trial])
-            elif ensemble[i].converge: 
-                correction_ensemble.append(corr_AutDEC)
+                corr_base = corr_aut.copy()
+            if np.allclose(chk@corr_aut%2,det_data[trial]):
+                correction_ensemble.append(corr_aut)
                 
-
-        correction_ensemble = sorted(correction_ensemble,key=likelihood,reverse=True)
-
-        corr_AutDEC = correction_ensemble[0].copy() # final ensemble correction with highest likelihood in the list
+        if correction_ensemble:
+            correction_ensemble = sorted(correction_ensemble,key=likelihood,reverse=True)
+            corr_AutDEC = correction_ensemble[0].copy() # final ensemble correction with highest likelihood in the list
+        else:
+            corr_AutDEC=corr_base.copy()
 
         ans_base = (obs @ corr_base + obs_data[trial]) % 2
         ans_AutDEC = (obs @ corr_AutDEC + obs_data[trial]) % 2
