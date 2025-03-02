@@ -9,6 +9,32 @@ import random
 from autdec.perm_utils import *
 
 def AutDEC_code_capacity(HX,HZ,LX,LZ,error_rate,shots,base_decoder,decoder_parameters,A_X,A_Z):
+
+    """Calculates the logical error rates for a base decoder and AutDEC.
+
+  This function simulates the performance of a given base decoder and AutDEC 
+  on a CSS code C=CSS(HX,HZ) composed of two classical codes with specified parity 
+  check matrices and logical operators, subject to a given physical error rate.
+
+  Args:
+    HX: Parity check matrix for the X code.
+    HZ: Parity check matrix for the Z code.
+    LX: Logical operator matrix for the X code.
+    LZ: Logical operator matrix for the Z code.
+    error_rate: The physical error rate.
+    shots: The number of Monte Carlo simulations to run.
+    base_decoder: The base decoder to use ('BP', 'BPOSD', or 'BPLSD').
+    decoder_parameters: Parameters for the base decoder (e.g., number of iterations).
+    A_X: A list of permutation matrices representing the automorphisms of HX.
+    A_Z: A list of permutation matrices representing the automorphisms of HZ.
+
+  Returns:
+    A tuple containing:
+      - shots: The number of shots taken.
+      - base_dec_errs: The number of logical errors for the base decoder.
+      - AutDEC_errs: The number of logical errors for AutDEC.
+  """
+    
     mx, nx = HX.shape
     mz, nz = HZ.shape
     k = LX.shape[0]
@@ -51,7 +77,7 @@ def AutDEC_code_capacity(HX,HZ,LX,LZ,error_rate,shots,base_decoder,decoder_param
     base_dec_errs = 0
     AutDEC_errs = 0
     print('Starting decoding.')
-    print('Trial no \t BaseDec Errors \t AutDEC Errors')
+    print(f"{'Trial no':<12} {'BaseDec Errors':>15} {'AutDEC Errors':>15}") 
     checkpoint = 5000
     for trial in range(shots):
         error = depolarizing_channel(error_rate,n)
@@ -111,7 +137,7 @@ def AutDEC_code_capacity(HX,HZ,LX,LZ,error_rate,shots,base_decoder,decoder_param
                 AutDEC_errs += 1
 
         if (trial+1)%checkpoint == 0:
-            print(f'{trial+1} \t {base_dec_errs} \t {AutDEC_errs}')
+            print(f"{trial+1:<12} {base_dec_errs:>15} {AutDEC_errs:>15}") #align outputs
             
     return shots, base_dec_errs, AutDEC_errs
    
