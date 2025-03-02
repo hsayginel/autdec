@@ -1,5 +1,4 @@
 import stim
-print('Stim version:',stim.__version__)
 
 # PYTHON
 import numpy as np
@@ -14,6 +13,24 @@ from ldpc.bplsd_decoder import BpLsdDecoder
 from autdec.dem_utils import *
 
 def autdecode_bb_cln(bb_code_name,error_rate, num_shots, DEM_col_perms, DEM_row_perms, base_decoder,decoder_hyperparams,basis='Z'):
+    """
+    Performs circuit-level noise simulations to compare the logical error rates of a base decoder and an automorphism ensemble decoder for a given bivariate bicycle code.
+
+    Args:
+        bb_code_name (str): The name of the bivariate bicycle code (e.g., "bb72").
+        error_rate (float): The physical error rate for the circuit noise model.
+        num_shots (int): The number of simulation shots to perform.
+        DEM_col_perms (list[np.ndarray]): A list of column permutation matrices for the automorphism ensemble decoder's paths (acting on the columns of the DEMs).
+        DEM_row_perms (list[np.ndarray]): A list of row permutation matrices for the automorphism ensemble decoder's paths (acting on the rows of the DEMs).
+        base_decoder (str): The base decoder function, using the base decoders of the LDPC package py Joschka Roffe (currently can be BP, BPOSD or BPLSD).
+        decoder_hyperparams (dict): A dictionary containing hyperparameters for the base decoder.
+        basis (str, optional): The logical basis to measure ('Z' or 'X'). Defaults to 'Z'.
+
+    Returns:
+        num_shots, base_dec_errs, AutDEC_errs[int, int, int]: A tuple containing the number of shots, logical error rates for the base decoder and the automorphism ensemble decoder, respectively.
+    """
+    
+    
     if bb_code_name == 'BB72' or bb_code_name == 'bb72':
         # [[72,12,6]]
         code, A_list, B_list = create_bivariate_bicycle_codes(6, 6, [3], [1,2], [1,2], [3])
@@ -103,8 +120,8 @@ def autdecode_bb_cln(bb_code_name,error_rate, num_shots, DEM_col_perms, DEM_row_
     AutDEC_errs = 0
 
     print('Starting decoding.')
-    print('Trial no \t BaseDec Errors \t AutDEC Errors')
-    checkpoint = 50
+    print(f"{'Trial no':<12} {'BaseDec Errors':>15} {'AutDEC Errors':>15}") 
+    checkpoint = 500
     
     for trial in range(num_shots):
         correction_ensemble = []
@@ -113,10 +130,10 @@ def autdecode_bb_cln(bb_code_name,error_rate, num_shots, DEM_col_perms, DEM_row_
             if i==0:
                 correction_ensemble.append(corr_AutDEC) # base decoder correction added as first element
                 corr_base = corr_AutDEC.copy()
-            elif ensemble[i].converge: # check if BP converged. 
+            # check if BP converged, faster but less accurate than if np.allclose(chk@corr_AutDEC%2,det_data[trial])
+            elif ensemble[i].converge: 
                 correction_ensemble.append(corr_AutDEC)
-                if base_decoder == ['BP','bp']: # if a BP path converged, exit the loop.
-                    break
+                
 
         correction_ensemble = sorted(correction_ensemble,key=likelihood,reverse=True)
 
@@ -131,7 +148,7 @@ def autdecode_bb_cln(bb_code_name,error_rate, num_shots, DEM_col_perms, DEM_row_
 
         
         if (trial+1)%checkpoint == 0:
-            print(f'{trial+1} \t {base_dec_errs} \t {AutDEC_errs}')
+            print(f"{trial+1:<12} {base_dec_errs:>15} {AutDEC_errs:>15}")
     return num_shots, base_dec_errs, AutDEC_errs
 
 
