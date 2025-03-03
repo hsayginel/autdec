@@ -1,4 +1,4 @@
-# AutDEC: Automorphism Ensemble Decoder for Quantum Stabilizer Codes
+# AutDEC: Quantum Automorphism Ensemble Decoder 
 Python package for implementation of the Quantum Automorphism Ensemble Decoder, "AutDEC".
 
 AutDEC is designed for parallel ensemble decoding of quantum error-correcting codes with large automorphism groups. It works by creating an ensemble of automorphism guided BP, BP+OSD or BP+LSD decoders. For Bivariate Bicycle Codes under circuit-level noise, using only a BP-based ensemble, we approach and match BP+OSD0 performance without postprocessing. On the other hand, using a BP+OSD0-based ensemble, we achieve similar decoding performance to BP+OSD10. It is inspired by the work of M. Geiselhart et al for classical codes [1]. 
