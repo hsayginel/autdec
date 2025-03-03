@@ -1,6 +1,6 @@
 # AutDEC: Automorphism Ensemble Decoder for Quantum Stabilizer Codes
 
-<img src="presentation/rm_15_aut_e_colouredcycles.png" width="600">
+<img src="rm_15_aut_e_colouredcycles.png" width="600">
 
 ## Citation 
 
