@@ -61,8 +61,6 @@ def autdecode_bb_cln(bb_code_name,error_rate, num_shots, DEM_col_perms, DEM_row_
         d = 34
     else: 
         raise ValueError('Not a valid BB code.')
-
-    print(code.name)
     
     if base_decoder in ['BP','bp','Bp']:
         decoder = BpDecoder
@@ -90,11 +88,9 @@ def autdecode_bb_cln(bb_code_name,error_rate, num_shots, DEM_col_perms, DEM_row_
 
     chk, obs, priors, col_dict = dem_to_check_matrices(dem, return_col_dict=True)
 
-    start_time = time.perf_counter()
     dem_sampler: stim.CompiledDemSampler = dem.compile_sampler()
     det_data, obs_data, err_data = dem_sampler.sample(shots=num_shots, return_errors=False, bit_packed=False)
-    end_time = time.perf_counter()
-    print(f"Stim: noise sampling for {num_shots} shots, elapsed time:", end_time-start_time)
+
     
     DEM_priors_list = []
     ensemble = []
