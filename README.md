@@ -1,8 +1,7 @@
 # AutDEC: Quantum Automorphism Ensemble Decoder 
-Python package for implementation of the Quantum Automorphism Ensemble Decoder, "AutDEC".
+Python package for implementation of the Quantum Automorphism Ensemble Decoder [1], "AutDEC":
 
-AutDEC is designed for parallel ensemble decoding of quantum error-correcting codes with large automorphism groups. It works by creating an ensemble of automorphism guided BP, BP+OSD or BP+LSD decoders. For Bivariate Bicycle Codes under circuit-level noise, using only a BP-based ensemble, we approach and match BP+OSD0 performance without postprocessing. On the other hand, using a BP+OSD0-based ensemble, we achieve similar decoding performance to BP+OSD10. It is inspired by the work of M. Geiselhart et al for classical codes [1]. 
-
+AutDEC is designed for parallel ensemble decoding of quantum error-correcting codes with large automorphism groups. It works by creating an ensemble of automorphism guided BP, BP+OSD or BP+LSD decoders. For Bivariate Bicycle Codes under circuit-level noise, using only a BP-based ensemble, we approach and match BP+OSD0 performance without postprocessing. On the other hand, using a BP+OSD0-based ensemble, we achieve similar decoding performance to BP+OSD10. It is inspired by the work of M. Geiselhart et al for classical codes [2]. 
 
 Note: AutDEC is currently a work in progress and a serial implementation is provided with parallelization in future plans.
 
@@ -42,4 +41,6 @@ year = {2025}
 ```
 
 ## References
-[1] M. Geiselhart, A. Elkelesh, M. Ebada, S. Cammerer and S. t. Brink, "Automorphism Ensemble Decoding of Reed–Muller Codes", in IEEE Transactions on Communications, vol. 69, no. 10, pp. 6424-6438, Oct. 2021, doi: 10.1109/TCOMM.2021.3098798.
+[1] S. Koutsioumpas*, H. Sayginel*, M. Webster, D. E Browne, Automorphism Ensemble Decoding of Quantum LDPC Codes, (2025), arXiv:2503.01738 [quant-ph].
+
+[2] M. Geiselhart, A. Elkelesh, M. Ebada, S. Cammerer and S. t. Brink, "Automorphism Ensemble Decoding of Reed–Muller Codes", in IEEE Transactions on Communications, vol. 69, no. 10, pp. 6424-6438, Oct. 2021, doi: 10.1109/TCOMM.2021.3098798.
