@@ -27,9 +27,25 @@ In [Code Capacity](./code_capacity/) we provide a notebook and simulation result
 For [Bivariate Bicycle Codes](./bivariate_cycle_codes) we provide a notebook and simulation results under circuit-level noise simulations. Currently, simulations can take a long time for large codes because of the serial implementation. 
 
 ## Citation 
-
+Paper
 ```
-@misc{Sayginel_AutDEC_2025,
+@article{autdec_paper,
+    author = "Koutsioumpas, Stergios and Sayginel, Hasan and Webster, Mark and Browne, Dan E.",
+    title = "{Automorphism Ensemble Decoding of Quantum LDPC Codes}",
+    eprint = "2503.01738",
+    archivePrefix = "arXiv",
+    journal = "arXiv:2503.01738",
+    primaryClass = "quant-ph",
+    month = "3",
+    year = "2025"
+}
+```
+
+
+
+Software
+```
+@misc{autdec_software,
 author = {Sayginel, Hasan and Koutsioumpas, Stergios},
 license = {MIT},
 month = mar,
